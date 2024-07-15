@@ -1,106 +1,123 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-    }
+plugins {
+    id 'net.minecraftforge.gradle'
+    id 'eclipse'
+    id 'maven-publish'
+    id 'java'
+    id 'net.kyori.blossom'
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.12.2-v6"
-group= "lain.mods.skins"
-archivesBaseName = "OfflineSkins"
+version = "${minecraft_version}-${mod_version}"
+group = mod_base_package
+archivesBaseName = mod_id
 
-sourceCompatibility = targetCompatibility = "1.8"
-compileJava {
-    sourceCompatibility = targetCompatibility = "1.8"
-}
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 minecraft {
-    version = "1.12.2-14.23.0.2486"
-    runDir = "run"
 
-    mappings = "snapshot_20170624"
-}
+    mappings channel: mappings_channel, version: mappings_version
 
-reobf {
-    coreJar {}
-}
-
-task coreJar(type: Jar) {
-    from(sourceSets.main.output) {
-        include '**/asm/**'
+    legacy {
+        fixClasspath = true
+        extractMappings = true
+        attachMappings = true
     }
+
+    runs {
+        client {
+            workingDirectory project.file('run/client')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'fml.coreMods.load', 'lain.mods.skins.init.forge.asm.Plugin'
+        }
+
+        server {
+            workingDirectory project.file('run/server')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            property 'fml.coreMods.load', 'lain.mods.skins.init.forge.asm.Plugin'
+
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir 'src/generated/resources'
+        }
+        blossom {
+            resources {
+                property("mod_id", mod_id)
+                property("mod_name", mod_name)
+                property("mod_description", mod_description)
+                property("mod_version", mod_version)
+                property("mod_authors", mod_authors)
+            }
+            javaSources {
+                property("MODNAME", mod_name)
+                property("MODID", mod_id)
+                property("VERSION", version)
+            }
+        }
+    }
+}
+
+repositories {
+    maven {
+        name 'Cleanroom Maven'
+        url 'https://maven.cleanroommc.com/'
+    }
+    maven {
+        url "https://repo.cleanroommc.com/snapshots"
+    }
+    maven {
+        url "https://maven.outlands.top/releases/"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "com.cleanroommc:cleanroom:${cleanroom_version}"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+jar {
     manifest {
-        attributes 'FMLCorePlugin': 'lain.mods.skins.init.forge.asm.Plugin'
-    }
-    classifier = 'core'
-    includeEmptyDirs = false
-}
-
-task signCoreJar(type: SignJar, dependsOn: reobfCoreJar) {
-    onlyIf {
-        project.hasProperty('mcModsStore')
-    }
-
-    if (project.hasProperty('mcModsStore')) {
-        keyStore = project.mcModsStore
-        alias = project.mcModsAlias
-        storePass = project.mcModsStorePass
-        keyPass = project.mcModsKeyPass
-        inputFile = coreJar.archivePath
-        outputFile = coreJar.archivePath
+        attributes([
+                'Specification-Title': mod_id,
+                'Specification-Vendor': mod_authors,
+                'Specification-Version': '1',
+                'FMLCorePluginContainsFMLMod': true,
+                'FMLCorePlugin': 'lain.mods.skins.init.forge.asm.Plugin',
+                'Implementation-Title': project.name,
+                'Implementation-Version': mod_version,
+                'Implementation-Vendor': mod_authors,
+                'Implementation-Timestamp': new Date().format('yyyy-MM-dd\'T\'HH:mm:ssZ')
+        ])
     }
 }
 
-jar
-{
-    manifest {
-        attributes 'ContainedDeps': coreJar.archivePath.name
+jar.finalizedBy('reobfJar')
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+        }
     }
-    exclude '**/asm/**'
-    from(coreJar.archivePath.absolutePath) {
-        include '*'
-    }
-}
-
-jar.dependsOn signCoreJar
-
-processResources
-{
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from 'LICENSE.txt'
-
-    from(sourceSets.main.resources.srcDirs)
-    {
-        include 'mcmod.info'
-
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs)
-    {
-        exclude 'mcmod.info'
+    repositories {
+        maven {
+            url "file://${project.projectDir}/mcmodsrepo"
+        }
     }
 }
-
-task signJar(type: SignJar, dependsOn: reobfJar) {
-    onlyIf {
-        project.hasProperty('mcModsStore')
-    }
-
-    if (project.hasProperty('mcModsStore')) {
-        keyStore = project.mcModsStore
-        alias = project.mcModsAlias
-        storePass = project.mcModsStorePass
-        keyPass = project.mcModsKeyPass
-        inputFile = jar.archivePath
-        outputFile = jar.archivePath
-    }
-}
-
-build.dependsOn signJar
