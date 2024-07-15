@@ -6,3 +6,5 @@
 /gradle.properties
 /build/
 /*.launch
+/.idea/
+/run/
