@@ -7,4 +7,5 @@
 /build/
 /*.launch
 /.idea/
+/out/
 /run/
