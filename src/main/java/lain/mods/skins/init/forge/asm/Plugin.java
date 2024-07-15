@@ -4,7 +4,7 @@ import java.util.Map;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
 @IFMLLoadingPlugin.Name("offlineskins")
-@IFMLLoadingPlugin.MCVersion("")
+@IFMLLoadingPlugin.MCVersion("1.12.2")
 @IFMLLoadingPlugin.TransformerExclusions("lain.mods.skins.init.forge.asm.")
 public class Plugin implements IFMLLoadingPlugin
 {

@@ -140,7 +140,7 @@ public class ForgeOfflineSkins
     @SideOnly(Side.CLIENT)
     private static boolean isDefaultSkin(ResourceLocation location)
     {
-        return "minecraft".equals(location.getResourceDomain()) && DefaultSkins.contains(location.getResourcePath());
+        return "minecraft".equals(location.getNamespace()) && DefaultSkins.contains(location.getPath());
     }
 
     @SideOnly(Side.CLIENT)
