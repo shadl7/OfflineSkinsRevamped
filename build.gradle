@@ -110,7 +110,6 @@ jar {
                 'Implementation-Title': project.name,
                 'Implementation-Version': mod_version,
                 'Implementation-Vendor': mod_authors,
-                'MixinConfigs': 'offlineskins.mixin.mod.json',
                 'ModType': 'CRL',
                 'Implementation-Timestamp': new Date().format('yyyy-MM-dd\'T\'HH:mm:ssZ')
         ])
