@@ -10,7 +10,6 @@ public class Plugin implements IFMLLoadingPlugin
 {
 
     public static boolean runtimeDeobfuscationEnabled = false;
-    public static boolean isDevelopmentEnvironment = false;
 
     @Override
     public String getAccessTransformerClass()
@@ -33,14 +32,10 @@ public class Plugin implements IFMLLoadingPlugin
     @Override
     public String getSetupClass()
     {
-        return "lain.mods.skins.init.forge.asm.Setup";
+        return null;
     }
 
     @Override
-    public void injectData(Map<String, Object> data)
-    {
-        runtimeDeobfuscationEnabled = (Boolean) data.get("runtimeDeobfuscationEnabled");
-        isDevelopmentEnvironment = (getClass().getResource("/binpatches.pack.lzma") == null);
-    }
+    public void injectData(Map<String, Object> data) {}
 
 }

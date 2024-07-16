@@ -6,6 +6,7 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 
+@SuppressWarnings("unused")
 public class Hooks
 {
 

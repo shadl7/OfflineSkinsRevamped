@@ -7,6 +7,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import net.minecraft.launchwrapper.IClassTransformer;
 
+@SuppressWarnings("unused")
 public class ASMTransformer implements IClassTransformer
 {
 
@@ -29,7 +30,8 @@ public class ASMTransformer implements IClassTransformer
                     this.visitVarInsn(Opcodes.ASTORE, 1);
                     this.visitVarInsn(Opcodes.ALOAD, 0);
                     this.visitVarInsn(Opcodes.ALOAD, 1);
-                    this.visitMethodInsn(Opcodes.INVOKESTATIC, "lain/mods/skins/init/forge/asm/Hooks", "getLocationCape", "(Lnet/minecraft/client/entity/AbstractClientPlayer;Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/util/ResourceLocation;", false);
+                    this.visitMethodInsn(Opcodes.INVOKESTATIC, "lain/mods/skins/init/forge/asm/Hooks", "getLocationCape",
+                            "(Lnet/minecraft/client/entity/AbstractClientPlayer;Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/util/ResourceLocation;", false);
                 }
                 super.visitInsn(opcode);
             }
@@ -52,7 +54,8 @@ public class ASMTransformer implements IClassTransformer
                     this.visitVarInsn(Opcodes.ASTORE, 1);
                     this.visitVarInsn(Opcodes.ALOAD, 0);
                     this.visitVarInsn(Opcodes.ALOAD, 1);
-                    this.visitMethodInsn(Opcodes.INVOKESTATIC, "lain/mods/skins/init/forge/asm/Hooks", "getLocationSkin", "(Lnet/minecraft/client/entity/AbstractClientPlayer;Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/util/ResourceLocation;", false);
+                    this.visitMethodInsn(Opcodes.INVOKESTATIC, "lain/mods/skins/init/forge/asm/Hooks", "getLocationSkin",
+                            "(Lnet/minecraft/client/entity/AbstractClientPlayer;Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/util/ResourceLocation;", false);
                 }
                 super.visitInsn(opcode);
             }
@@ -75,16 +78,23 @@ public class ASMTransformer implements IClassTransformer
                     this.visitVarInsn(Opcodes.ASTORE, 1);
                     this.visitVarInsn(Opcodes.ALOAD, 0);
                     this.visitVarInsn(Opcodes.ALOAD, 1);
-                    this.visitMethodInsn(Opcodes.INVOKESTATIC, "lain/mods/skins/init/forge/asm/Hooks", "getSkinType", "(Lnet/minecraft/client/entity/AbstractClientPlayer;Ljava/lang/String;)Ljava/lang/String;", false);
+                    this.visitMethodInsn(Opcodes.INVOKESTATIC, "lain/mods/skins/init/forge/asm/Hooks", "getSkinType",
+                            "(Lnet/minecraft/client/entity/AbstractClientPlayer;Ljava/lang/String;)Ljava/lang/String;", false);
                 }
                 super.visitInsn(opcode);
             }
 
         }
 
-        ObfHelper m001 = ObfHelper.newMethod("func_110303_q", "net/minecraft/client/entity/AbstractClientPlayer", "()Lnet/minecraft/util/ResourceLocation;").setDevName("getLocationCape");
-        ObfHelper m002 = ObfHelper.newMethod("func_110306_p", "net/minecraft/client/entity/AbstractClientPlayer", "()Lnet/minecraft/util/ResourceLocation;").setDevName("getLocationSkin");
-        ObfHelper m003 = ObfHelper.newMethod("func_175154_l", "net/minecraft/client/entity/AbstractClientPlayer", "()Ljava/lang/String;").setDevName("getSkinType");
+        ObfHelper m001 = ObfHelper.newMethod("func_110303_q", "getLocationCape",
+                "net/minecraft/client/entity/AbstractClientPlayer",
+                "()Lnet/minecraft/util/ResourceLocation;");
+        ObfHelper m002 = ObfHelper.newMethod("func_110306_p", "getLocationSkin",
+                "net/minecraft/client/entity/AbstractClientPlayer",
+                "()Lnet/minecraft/util/ResourceLocation;");
+        ObfHelper m003 = ObfHelper.newMethod("func_175154_l", "getSkinType",
+                "net/minecraft/client/entity/AbstractClientPlayer",
+                "()Ljava/lang/String;");
 
         public transformer001(ClassVisitor cv)
         {
@@ -111,7 +121,9 @@ public class ASMTransformer implements IClassTransformer
         class method001 extends MethodVisitor
         {
 
-            ObfHelper target = ObfHelper.newMethod("func_147499_a", "net/minecraft/client/renderer/tileentity/TileEntitySpecialRenderer", "(Lnet/minecraft/util/ResourceLocation;)V").setDevName("bindTexture");
+            ObfHelper target = ObfHelper.newMethod("func_147499_a", "bindTexture",
+                    "net/minecraft/client/renderer/tileentity/TileEntitySpecialRenderer",
+                    "(Lnet/minecraft/util/ResourceLocation;)V");
 
             int lastALOAD = -1;
 
@@ -128,7 +140,8 @@ public class ASMTransformer implements IClassTransformer
                     this.visitInsn(Opcodes.POP);
                     this.visitVarInsn(Opcodes.ALOAD, 7);
                     this.visitVarInsn(Opcodes.ALOAD, 11);
-                    this.visitMethodInsn(Opcodes.INVOKESTATIC, "lain/mods/skins/init/forge/asm/Hooks", "TileEntitySkullRenderer_bindTexture", "(Lcom/mojang/authlib/GameProfile;Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/util/ResourceLocation;", false);
+                    this.visitMethodInsn(Opcodes.INVOKESTATIC, "lain/mods/skins/init/forge/asm/Hooks", "TileEntitySkullRenderer_bindTexture",
+                            "(Lcom/mojang/authlib/GameProfile;Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/util/ResourceLocation;", false);
                     this.visitVarInsn(Opcodes.ASTORE, 11);
                     this.visitVarInsn(Opcodes.ALOAD, 11);
                 }
@@ -145,7 +158,9 @@ public class ASMTransformer implements IClassTransformer
 
         }
 
-        ObfHelper m001 = ObfHelper.newMethod("func_188190_a", "net/minecraft/client/renderer/tileentity/TileEntitySkullRenderer", "(FFFLnet/minecraft/util/EnumFacing;FILcom/mojang/authlib/GameProfile;IF)V").setDevName("renderSkull");
+        ObfHelper m001 = ObfHelper.newMethod("func_188190_a", "renderSkull",
+                "net/minecraft/client/renderer/tileentity/TileEntitySkullRenderer",
+                "(FFFLnet/minecraft/util/EnumFacing;FILcom/mojang/authlib/GameProfile;IF)V");
 
         public transformer002(ClassVisitor cv)
         {
@@ -168,7 +183,9 @@ public class ASMTransformer implements IClassTransformer
         class method001 extends MethodVisitor
         {
 
-            ObfHelper target = ObfHelper.newMethod("func_110577_a", "net/minecraft/client/renderer/texture/TextureManager", "(Lnet/minecraft/util/ResourceLocation;)V").setDevName("bindTexture");
+            ObfHelper target = ObfHelper.newMethod("func_110577_a", "bindTexture",
+                    "net/minecraft/client/renderer/texture/TextureManager",
+                    "(Lnet/minecraft/util/ResourceLocation;)V");
 
             public method001(MethodVisitor mv)
             {
@@ -183,7 +200,8 @@ public class ASMTransformer implements IClassTransformer
                     this.visitVarInsn(Opcodes.ASTORE, 32);
                     this.visitVarInsn(Opcodes.ALOAD, 25);
                     this.visitVarInsn(Opcodes.ALOAD, 32);
-                    this.visitMethodInsn(Opcodes.INVOKESTATIC, "lain/mods/skins/init/forge/asm/Hooks", "GuiPlayerTabOverlay_bindTexture", "(Lcom/mojang/authlib/GameProfile;Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/util/ResourceLocation;", false);
+                    this.visitMethodInsn(Opcodes.INVOKESTATIC, "lain/mods/skins/init/forge/asm/Hooks", "GuiPlayerTabOverlay_bindTexture",
+                            "(Lcom/mojang/authlib/GameProfile;Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/util/ResourceLocation;", false);
                 }
                 super.visitMethodInsn(opcode, owner, name, desc, itf);
             }
@@ -201,7 +219,9 @@ public class ASMTransformer implements IClassTransformer
 
         }
 
-        ObfHelper m001 = ObfHelper.newMethod("func_175249_a", "net/minecraft/client/gui/GuiPlayerTabOverlay", "(ILnet/minecraft/scoreboard/Scoreboard;Lnet/minecraft/scoreboard/ScoreObjective;)V").setDevName("renderPlayerlist");
+        ObfHelper m001 = ObfHelper.newMethod("func_175249_a", "renderPlayerlist",
+                "net/minecraft/client/gui/GuiPlayerTabOverlay",
+                "(ILnet/minecraft/scoreboard/Scoreboard;Lnet/minecraft/scoreboard/ScoreObjective;)V");
 
         public transformer003(ClassVisitor cv)
         {
